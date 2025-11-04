@@ -1,0 +1,15 @@
+.blob {
+    width: 288px;
+    height: 288px;
+    border-radius: 50%;
+    opacity: 0.2;
+    position: absolute;
+    z-index: 1;         /* thấp hơn text */
+    mix-blend-mode: screen; /* tránh darken text */
+    animation: pulseSlow 6s ease-in-out infinite;
+}
+
+@keyframes pulseSlow {
+    0%,100% { transform: scale(1); opacity: 0.2; }
+    50% { transform: scale(1.2); opacity: 0.4; }
+}
