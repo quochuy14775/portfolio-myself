@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { useTilt } from "../hooks/useTilt";
+import GitHubStats from "../components/GitHubStats/GitHubStats";
 import "./About.css";
 
 const skills = [
@@ -10,19 +11,43 @@ const skills = [
     "Git", "GraphQL", "Vite", "Framer Motion"
 ];
 
-const experiences = [
+interface Experience {
+    title: string;
+    company: string;
+    period: string;
+    description: string;
+    highlights: string[];
+}
+
+const experiences: Experience[] = [
     {
-        title: "Full Stack Developer",
-        company: "Tech Company",
-        period: "2022 — Present",
-        description: "Building scalable web applications using modern technologies"
+        title: "Fullstack Developer",
+        company: "Tri Thanh Software",
+        period: "11/2024 — 12/2025",
+        description:
+            "Built and maintained production web applications using Vue 3 and ASP.NET Core Web API — full ownership from API design to frontend integration.",
+        highlights: [
+            "Designed RESTful APIs with EF Core + LINQ — optimized queries via eager loading (Include), projection (Select), and N+1 mitigation.",
+            "Integrated OData ($filter, $orderby, $top, $skip) for server-side filtering and pagination, drastically reducing payload size on large tables.",
+            "Applied OOP & SOLID with Controller–Service–Repository architecture and Dependency Injection to keep modules loosely coupled.",
+            "Built a reusable Vue 3 component library (forms, tables, dialogs) — cut duplicate code and accelerated feature delivery.",
+            "Improved app performance by trimming API response payloads, eliminating redundant requests, and refactoring components to prevent unnecessary re-renders.",
+        ],
     },
     {
-        title: "Frontend Developer",
-        company: "Startup Inc",
-        period: "2020 — 2022",
-        description: "Created responsive and interactive user interfaces"
-    }
+        title: "Backend Developer",
+        company: "FPT Software Quy Nhơn",
+        period: "04/2024 — 10/2024",
+        description:
+            "Developed RESTful APIs with ASP.NET Core in an Agile Scrum team, focusing on clean architecture and reliable error handling.",
+        highlights: [
+            "Built APIs with Controller–Service–Repository pattern; used IServiceCollection-based DI to decouple components.",
+            "Implemented logging and global exception-handling middleware for centralized request/response tracking.",
+            "Analyzed logs & stack traces to root-cause production issues and adjusted business logic accordingly.",
+            "Collaborated with the ReactJS frontend team — defined response contracts and resolved integration issues.",
+            "Worked with GitLab — branching strategy, merge requests, and active participation in code reviews.",
+        ],
+    },
 ];
 
 function BentoCard({
@@ -138,25 +163,9 @@ export default function About() {
                         <LiveTime />
                     </BentoCard>
 
-                    {/* GitHub stats — embed */}
-                    <BentoCard className="bento-github" tiltMax={3}>
-                        <div className="bento-github-head">
-                            <span className="bento-label">GitHub activity</span>
-                            <a
-                                href="https://github.com/yourname"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="bento-link mono"
-                            >
-                                @yourname ↗
-                            </a>
-                        </div>
-                        <img
-                            src="https://github-readme-stats.vercel.app/api?username=yourname&show_icons=true&theme=transparent&hide_border=true&title_color=fafafa&text_color=a1a1aa&icon_color=fafafa"
-                            alt="GitHub stats"
-                            className="bento-github-img"
-                            loading="lazy"
-                        />
+                    {/* GitHub stats — custom heatmap */}
+                    <BentoCard className="bento-github" tiltMax={2}>
+                        <GitHubStats username="quochuy14775" />
                     </BentoCard>
 
                     {/* Skills */}
@@ -187,10 +196,20 @@ export default function About() {
                                     >
                                         <div className="timeline-marker" />
                                         <div className="timeline-content">
-                                            <h3 className="exp-title">{exp.title}</h3>
+                                            <div className="exp-head">
+                                                <h3 className="exp-title">{exp.title}</h3>
+                                                <span className="exp-period mono">{exp.period}</span>
+                                            </div>
                                             <p className="exp-company">{exp.company}</p>
-                                            <p className="exp-period mono">{exp.period}</p>
                                             <p className="exp-description">{exp.description}</p>
+                                            <ul className="exp-highlights">
+                                                {exp.highlights.map((h, i) => (
+                                                    <li key={i}>
+                                                        <span className="exp-bullet" aria-hidden="true" />
+                                                        <span>{h}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
                                         </div>
                                     </motion.div>
                                 ))}

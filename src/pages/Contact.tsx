@@ -1,47 +1,30 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { SiGithub, SiX } from "react-icons/si";
+import { FaLinkedin } from "react-icons/fa6";
 import "./Contact.css";
 
 const socialLinks = [
-    {
-        name: "GitHub",
-        icon: "🔗",
-        url: "https://github.com/yourname",
-        color: "#333"
-    },
-    {
-        name: "LinkedIn",
-        icon: "💼",
-        url: "https://linkedin.com/in/yourname",
-        color: "#0077B5"
-    },
-    {
-        name: "Twitter",
-        icon: "🐦",
-        url: "https://twitter.com/yourname",
-        color: "#1DA1F2"
-    },
-    {
-        name: "Email",
-        icon: "✉️",
-        url: "mailto:yourname@example.com",
-        color: "#EA4335"
-    }
+    { name: "GitHub", url: "https://github.com/quochuy14775", Icon: SiGithub },
+    { name: "LinkedIn", url: "https://linkedin.com/in/quochuy14775", Icon: FaLinkedin },
+    { name: "Twitter", url: "https://twitter.com/quochuy14775", Icon: SiX },
+    { name: "Email", url: "mailto:qhuy14775@gmail.com", Icon: Mail },
+];
+
+const infoItems = [
+    { label: "Email", value: "qhuy14775@gmail.com", Icon: Mail },
+    { label: "Phone", value: "+84 768 464 821", Icon: Phone },
+    { label: "Location", value: "Quy Nhơn, Gia Lai · Vietnam", Icon: MapPin },
 ];
 
 export default function Contact() {
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        message: ""
-    });
-
+    const [formData, setFormData] = useState({ name: "", email: "", message: "" });
     const [status, setStatus] = useState("");
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setStatus("Message sent! I'll get back to you soon.");
-        // Reset form
         setTimeout(() => {
             setFormData({ name: "", email: "", message: "" });
             setStatus("");
@@ -49,10 +32,7 @@ export default function Contact() {
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     return (
@@ -63,12 +43,11 @@ export default function Contact() {
             exit={{ opacity: 0 }}
         >
             <div className="contact-container">
-                {/* Header */}
                 <motion.div
                     className="contact-header"
-                    initial={{ y: -50, opacity: 0 }}
+                    initial={{ y: -30, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.8 }}
+                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 >
                     <h1 className="contact-title">
                         Get In <span className="highlight-gradient">Touch</span>
@@ -79,12 +58,11 @@ export default function Contact() {
                 </motion.div>
 
                 <div className="contact-content">
-                    {/* Contact Form */}
                     <motion.div
                         className="contact-form-wrapper"
-                        initial={{ x: -50, opacity: 0 }}
+                        initial={{ x: -30, opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
+                        transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
                     >
                         <form onSubmit={handleSubmit} className="contact-form">
                             <div className="form-group">
@@ -129,13 +107,11 @@ export default function Contact() {
                             <motion.button
                                 type="submit"
                                 className="submit-btn"
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
                             >
                                 <span>Send Message</span>
-                                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                </svg>
+                                <Send size={16} strokeWidth={2} />
                             </motion.button>
 
                             {status && (
@@ -150,59 +126,49 @@ export default function Contact() {
                         </form>
                     </motion.div>
 
-                    {/* Contact Info */}
                     <motion.div
                         className="contact-info"
-                        initial={{ x: 50, opacity: 0 }}
+                        initial={{ x: 30, opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
-                        transition={{ duration: 0.8, delay: 0.4 }}
+                        transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
                     >
                         <div className="info-card">
                             <h3 className="info-title">Contact Information</h3>
                             <div className="info-items">
-                                <div className="info-item">
-                                    <span className="info-icon">📧</span>
-                                    <div>
-                                        <p className="info-label">Email</p>
-                                        <p className="info-value">yourname@example.com</p>
+                                {infoItems.map(({ label, value, Icon }) => (
+                                    <div key={label} className="info-item">
+                                        <span className="info-icon">
+                                            <Icon size={16} strokeWidth={1.8} />
+                                        </span>
+                                        <div>
+                                            <p className="info-label">{label}</p>
+                                            <p className="info-value">{value}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="info-item">
-                                    <span className="info-icon">📱</span>
-                                    <div>
-                                        <p className="info-label">Phone</p>
-                                        <p className="info-value">+84 123 456 789</p>
-                                    </div>
-                                </div>
-                                <div className="info-item">
-                                    <span className="info-icon">📍</span>
-                                    <div>
-                                        <p className="info-label">Location</p>
-                                        <p className="info-value">Vietnam</p>
-                                    </div>
-                                </div>
+                                ))}
                             </div>
                         </div>
 
-                        {/* Social Links */}
                         <div className="social-links">
                             <h3 className="social-title">Connect With Me</h3>
                             <div className="social-grid">
-                                {socialLinks.map((social, index) => (
+                                {socialLinks.map(({ name, url, Icon }, index) => (
                                     <motion.a
-                                        key={social.name}
-                                        href={social.url}
-                                        className="social-card"
+                                        key={name}
+                                        href={url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        initial={{ scale: 0, opacity: 0 }}
+                                        className="social-card"
+                                        initial={{ scale: 0.9, opacity: 0 }}
                                         animate={{ scale: 1, opacity: 1 }}
-                                        transition={{ delay: 0.6 + index * 0.1, type: "spring" }}
-                                        whileHover={{ scale: 1.1, rotate: 5 }}
+                                        transition={{ delay: 0.45 + index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                                        whileHover={{ y: -3 }}
                                         whileTap={{ scale: 0.95 }}
                                     >
-                                        <span className="social-icon">{social.icon}</span>
-                                        <span className="social-name">{social.name}</span>
+                                        <span className="social-icon">
+                                            <Icon size={18} />
+                                        </span>
+                                        <span className="social-name">{name}</span>
                                     </motion.a>
                                 ))}
                             </div>

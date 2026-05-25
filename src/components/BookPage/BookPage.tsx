@@ -1,13 +1,12 @@
 import { ReactNode, useRef } from "react";
 import { motion, useScroll, useTransform, useSpring, MotionValue } from "framer-motion";
+import { useIsMobile } from "../../hooks/useIsMobile";
 import "./BookPage.css";
 
 interface BookPageProps {
     id: string;
     children: ReactNode;
-    /** First page doesn't flip in (already visible on load) */
     isFirst?: boolean;
-    /** Last page doesn't flip out */
     isLast?: boolean;
 }
 
@@ -17,19 +16,23 @@ function useSmooth(mv: MotionValue<number>) {
 
 export default function BookPage({ id, children, isFirst = false, isLast = false }: BookPageProps) {
     const ref = useRef<HTMLDivElement>(null);
+    const isMobile = useIsMobile(768);
 
     const { scrollYProgress } = useScroll({
         target: ref,
-        // 0 when bottom of section enters viewport bottom
-        // 0.5 when section is centered
-        // 1 when top of section leaves viewport top
         offset: ["start end", "end start"],
     });
 
-    // Book page flip: rotates around horizontal axis (X)
-    // Incoming page: -65deg → 0deg (flipping down toward viewer)
-    // Outgoing page: 0deg → 65deg (flipping away upward)
-    // Flat zone: page sits at rotateX=0 from 30% → 70% of scroll progress
+    // Mobile: skip 3D flip entirely (causes sub-pixel blur on text).
+    // Use a plain fade-in instead.
+    const opacityRawMobile = useTransform(
+        scrollYProgress,
+        [0, 0.15, 0.85, 1],
+        [isFirst ? 1 : 0.3, 1, 1, isLast ? 1 : 0.3]
+    );
+    const opacityMobile = useSmooth(opacityRawMobile);
+
+    // Desktop: full book-flip
     const rotateXRaw = useTransform(
         scrollYProgress,
         [0, 0.3, 0.7, 1],
@@ -45,7 +48,6 @@ export default function BookPage({ id, children, isFirst = false, isLast = false
         [0, 0.3, 0.7, 1],
         [isFirst ? 1 : 0.85, 1, 1, isLast ? 1 : 0.85]
     );
-    // Shadow only visible while tilting; flat zone has no shadow
     const shadowRaw = useTransform(
         scrollYProgress,
         [0, 0.3, 0.7, 1],
@@ -53,9 +55,19 @@ export default function BookPage({ id, children, isFirst = false, isLast = false
     );
 
     const rotateX = useSmooth(rotateXRaw);
-    const opacity = useSmooth(opacityRaw);
+    const opacityDesktop = useSmooth(opacityRaw);
     const scale = useSmooth(scaleRaw);
     const shadow = useSmooth(shadowRaw);
+
+    if (isMobile) {
+        return (
+            <div ref={ref} id={id} className="book-page-wrap book-page-wrap--mobile">
+                <motion.div className="book-page book-page--flat" style={{ opacity: opacityMobile }}>
+                    {children}
+                </motion.div>
+            </div>
+        );
+    }
 
     return (
         <div ref={ref} id={id} className="book-page-wrap">
@@ -63,14 +75,13 @@ export default function BookPage({ id, children, isFirst = false, isLast = false
                 className="book-page"
                 style={{
                     rotateX,
-                    opacity,
+                    opacity: opacityDesktop,
                     scale,
                     transformPerspective: 1800,
                     transformOrigin: "center center",
                 }}
             >
                 {children}
-                {/* Page-flip shadow overlay */}
                 <motion.div
                     className="book-page-shadow"
                     style={{ opacity: shadow }}

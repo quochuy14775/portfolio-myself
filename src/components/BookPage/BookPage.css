@@ -32,6 +32,18 @@
     mix-blend-mode: multiply;
 }
 
+/* Mobile: no 3D context — flat fade only, sharp text */
+.book-page-wrap--mobile {
+    perspective: none;
+    transform-style: flat;
+}
+.book-page--flat {
+    transform: none !important;
+    will-change: opacity;
+    backface-visibility: visible;
+    -webkit-backface-visibility: visible;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .book-page {
         transform: none !important;

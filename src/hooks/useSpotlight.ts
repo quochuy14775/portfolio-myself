@@ -4,6 +4,7 @@ export function useSpotlight<T extends HTMLElement>(ref: RefObject<T | null>) {
     useEffect(() => {
         const el = ref.current;
         if (!el) return;
+        if (window.matchMedia("(hover: none)").matches) return;
 
         const onMove = (e: MouseEvent) => {
             const rect = el.getBoundingClientRect();

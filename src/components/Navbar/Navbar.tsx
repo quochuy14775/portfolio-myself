@@ -58,7 +58,7 @@ export default function Navbar() {
                     aria-label="Home"
                 >
                     <span className="logo-bracket">{"<"}</span>
-                    <span className="logo-text">QH</span>
+                    <span className="logo-text">QuocHuy</span>
                     <span className="logo-bracket">{"/>"}</span>
                 </button>
 

@@ -1,96 +1,156 @@
 import { motion } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef } from "react";
+import { ArrowUpRight, Calendar, Star, Database, Cloud } from "lucide-react";
+import {
+    SiDotnet,
+    SiSharp,
+    SiNextdotjs,
+    SiReact,
+    SiMongodb,
+    SiDocker,
+    SiJsonwebtokens,
+    SiGithub,
+} from "react-icons/si";
 import { useTilt } from "../hooks/useTilt";
 import "./Project.css";
 
-const projects = [
+interface Tech {
+    name: string;
+    icon: React.ElementType;
+}
+
+interface Project {
+    title: string;
+    role: string;
+    period: string;
+    description: string;
+    highlights: string[];
+    tech: Tech[];
+    repos: { label: string; url: string }[];
+    featured?: boolean;
+}
+
+const projects: Project[] = [
     {
-        title: "Portfolio Website",
-        description: "A personal developer portfolio with modern animations and interactive elements",
-        link: "#",
-        category: "Frontend",
-        tech: ["React", "TypeScript", "GSAP"],
-        image: "🎨"
+        title: "AI-Powered English Center Management System",
+        role: "Full-stack Developer",
+        period: "04/2025 — 08/2025",
+        description:
+            "End-to-end management platform for English centers with class scheduling, attendance tracking, and student management — deployed on Microsoft Azure.",
+        highlights: [
+            "Built RESTful APIs with OData for server-side filtering, sorting & pagination — drastically reducing payload size on large tables.",
+            "Implemented JWT-based authentication & role-based access control across all modules.",
+            "Integrated QR-code check-in and external face-recognition API for attendance verification.",
+            "Optimized EF Core queries with eager loading, projection, and N+1 mitigation.",
+        ],
+        tech: [
+            { name: ".NET 8", icon: SiDotnet },
+            { name: "C#", icon: SiSharp },
+            { name: "Next.js", icon: SiNextdotjs },
+            { name: "SQL Server", icon: Database },
+            { name: "MongoDB", icon: SiMongodb },
+            { name: "Azure", icon: Cloud },
+            { name: "JWT", icon: SiJsonwebtokens },
+        ],
+        repos: [
+            { label: "Frontend", url: "https://github.com/quochuy14775/AICMSFE" },
+            { label: "Backend", url: "https://github.com/quochuy14775/AICMSBE" },
+        ],
+        featured: true,
     },
     {
-        title: "E-commerce App",
-        description: "Online store built with React & Tailwind with shopping cart functionality",
-        link: "#",
-        category: "Full Stack",
-        tech: ["React", "Node.js", "MongoDB"],
-        image: "🛒"
-    },
-    {
-        title: "Blog Platform",
-        description: "Fullstack blog app with TypeScript & Node.js featuring rich text editor",
-        link: "#",
-        category: "Full Stack",
-        tech: ["TypeScript", "Node.js", "PostgreSQL"],
-        image: "📝"
-    },
-    {
-        title: "Task Manager",
-        description: "Productivity app with drag-and-drop functionality and real-time updates",
-        link: "#",
-        category: "Frontend",
-        tech: ["React", "Redux", "Firebase"],
-        image: "✅"
-    },
-    {
-        title: "Weather Dashboard",
-        description: "Real-time weather app with beautiful UI and location-based forecasts",
-        link: "#",
-        category: "Frontend",
-        tech: ["React", "API Integration", "Chart.js"],
-        image: "🌤️"
-    },
-    {
-        title: "Social Media API",
-        description: "RESTful API for social media platform with authentication and authorization",
-        link: "#",
-        category: "Backend",
-        tech: ["Node.js", "Express", "JWT"],
-        image: "🔗"
+        title: "Taskify — Task & Project Management",
+        role: "Full-stack Developer",
+        period: "05/2024 — 07/2024",
+        description:
+            "Kanban-style task and project management application with role-based collaboration, containerized with Docker for consistent dev/prod environments.",
+        highlights: [
+            "Designed Controller — Service — Repository architecture with Dependency Injection for clean separation of concerns.",
+            "OData-powered API endpoints for filtering, sorting & pagination at the database layer.",
+            "JWT authentication with role-based authorization for multi-tenant access control.",
+            "Dockerized full stack — consistent environments from local dev to production deployment.",
+        ],
+        tech: [
+            { name: ".NET 8", icon: SiDotnet },
+            { name: "C#", icon: SiSharp },
+            { name: "React", icon: SiReact },
+            { name: "SQL Server", icon: Database },
+            { name: "JWT", icon: SiJsonwebtokens },
+            { name: "Docker", icon: SiDocker },
+        ],
+        repos: [
+            { label: "Frontend", url: "https://github.com/Neslep/Taskify.FE" },
+            { label: "Backend", url: "https://github.com/neslep/taskify" },
+        ],
     },
 ];
 
-const categories = ["All", "Frontend", "Backend", "Full Stack"];
-
-type Project = typeof projects[number];
-
 function ProjectCard({ project, idx }: { project: Project; idx: number }) {
     const ref = useRef<HTMLDivElement>(null);
-    useTilt(ref, 6);
+    useTilt(ref, 4);
 
     return (
         <motion.div
             ref={ref}
             className="project-card"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.5, delay: idx * 0.06, ease: [0.16, 1, 0.3, 1] }}
-            layout
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
         >
             <div className="project-card-inner">
-                <div className="project-icon">{project.image}</div>
-                <div className="project-content">
+                <div className="project-meta">
+                    <span className="project-period mono">
+                        <Calendar size={12} strokeWidth={2} />
+                        {project.period}
+                    </span>
+                    {project.featured && (
+                        <span className="project-featured mono">
+                            <Star size={12} strokeWidth={2} fill="currentColor" />
+                            Featured
+                        </span>
+                    )}
+                </div>
+
+                <div className="project-head">
                     <h3 className="project-title">{project.title}</h3>
-                    <p className="project-category">{project.category}</p>
-                    <p className="project-description">{project.description}</p>
+                    <p className="project-role mono">{project.role}</p>
+                </div>
 
-                    <div className="project-tech">
-                        {project.tech.map((tech) => (
-                            <span key={tech} className="tech-tag">{tech}</span>
-                        ))}
-                    </div>
+                <p className="project-description">{project.description}</p>
 
-                    <a href={project.link} className="project-link">
-                        View Project
-                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </a>
+                <ul className="project-highlights">
+                    {project.highlights.map((h, i) => (
+                        <li key={i}>
+                            <span className="bullet" aria-hidden="true" />
+                            <span>{h}</span>
+                        </li>
+                    ))}
+                </ul>
+
+                <div className="project-tech">
+                    {project.tech.map(({ name, icon: Icon }) => (
+                        <span key={name} className="tech-tag" title={name}>
+                            <Icon className="tech-icon" />
+                            <span className="tech-name">{name}</span>
+                        </span>
+                    ))}
+                </div>
+
+                <div className="project-actions">
+                    {project.repos.map((r) => (
+                        <a
+                            key={r.label}
+                            href={r.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="project-action"
+                        >
+                            <SiGithub size={14} />
+                            <span>{r.label}</span>
+                            <ArrowUpRight size={12} strokeWidth={2} className="action-arrow" />
+                        </a>
+                    ))}
                 </div>
             </div>
         </motion.div>
@@ -98,12 +158,6 @@ function ProjectCard({ project, idx }: { project: Project; idx: number }) {
 }
 
 export default function Projects() {
-    const [selectedCategory, setSelectedCategory] = useState("All");
-
-    const filteredProjects = selectedCategory === "All"
-        ? projects
-        : projects.filter(p => p.category === selectedCategory);
-
     return (
         <motion.div
             className="projects-page"
@@ -118,36 +172,21 @@ export default function Projects() {
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 >
+                    <span className="projects-eyebrow mono">{"// selected.work"}</span>
                     <h1 className="projects-title">
-                        My <span className="highlight-gradient">Projects</span>
+                        Featured <span className="highlight-gradient">Projects</span>
                     </h1>
                     <p className="projects-subtitle">
-                        A collection of my recent work and side projects
+                        End-to-end systems I built — from RESTful API design and EF Core
+                        optimization to React/Next.js frontends and Azure deployment.
                     </p>
                 </motion.div>
 
-                <motion.div
-                    className="filter-buttons"
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                >
-                    {categories.map((category) => (
-                        <button
-                            key={category}
-                            className={`filter-btn ${selectedCategory === category ? 'active' : ''}`}
-                            onClick={() => setSelectedCategory(category)}
-                        >
-                            {category}
-                        </button>
-                    ))}
-                </motion.div>
-
-                <motion.div className="projects-grid" layout>
-                    {filteredProjects.map((project, idx) => (
+                <div className="projects-list">
+                    {projects.map((project, idx) => (
                         <ProjectCard key={project.title} project={project} idx={idx} />
                     ))}
-                </motion.div>
+                </div>
             </div>
         </motion.div>
     );

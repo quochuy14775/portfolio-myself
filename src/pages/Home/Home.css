@@ -365,9 +365,12 @@
 
 @media screen and (max-width: 640px) {
     .home-section {
-        padding-left: 1.25rem;
-        padding-right: 1.25rem;
+        padding: 100px 1.25rem 60px;
+        gap: 2rem;
+        min-height: auto;
     }
+    .hero-title { font-size: clamp(2rem, 9vw, 2.75rem); }
+    .hero-subtitle { font-size: 0.95rem; }
     .cta-buttons {
         flex-direction: column;
         width: 100%;
@@ -377,7 +380,11 @@
         justify-content: center;
         padding: 0.75rem 1rem;
     }
-    .avatar-wrapper { width: 220px; height: 220px; }
+    .tech-stack { gap: 0.4rem; }
+    .tech-badge { font-size: 0.7rem; padding: 0.25rem 0.6rem; }
+    .avatar-wrapper { width: 200px; height: 200px; }
     .ring-1, .ring-2 { display: none; }
+    .status-badge { right: 0; bottom: 10px; font-size: 0.7rem; }
     .scroll-indicator { display: none; }
+    .grid-background { background-size: 22px 22px; }
 }

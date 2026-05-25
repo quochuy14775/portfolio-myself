@@ -195,9 +195,8 @@
 }
 
 .info-icon {
-    font-size: 1rem;
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -205,6 +204,7 @@
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     flex-shrink: 0;
+    color: var(--fg);
 }
 
 .info-label {
@@ -247,7 +247,10 @@
 }
 
 .social-card .social-icon {
-    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--fg);
 }
 
 .social-name {

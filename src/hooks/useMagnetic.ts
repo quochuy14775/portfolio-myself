@@ -8,6 +8,7 @@ export function useMagnetic<T extends HTMLElement>(
     useEffect(() => {
         const el = ref.current;
         if (!el) return;
+        if (window.matchMedia("(hover: none)").matches) return;
 
         const onMove = (e: MouseEvent) => {
             const rect = el.getBoundingClientRect();

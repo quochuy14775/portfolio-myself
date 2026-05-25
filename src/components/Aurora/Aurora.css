@@ -79,3 +79,10 @@
 @media (prefers-reduced-motion: reduce) {
     .aurora-blob { animation: none; }
 }
+
+@media (max-width: 768px) {
+    .aurora-blob { filter: blur(80px); opacity: 0.4; }
+    .aurora-blob-1 { width: 360px; height: 360px; top: -100px; left: -80px; }
+    .aurora-blob-2 { width: 320px; height: 320px; right: -100px; }
+    .aurora-blob-3 { width: 420px; height: 420px; bottom: -140px; }
+}
