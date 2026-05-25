@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { motion } from "framer-motion";
 import ParticleBackground from "../../components/ParticleBackground/ParticleBackground";
+import { useMagnetic } from "../../hooks/useMagnetic";
+import { useSpotlight } from "../../hooks/useSpotlight";
 import "./Home.css";
 
 const roles = ["Frontend Developer", "Backend Developer", "Full Stack Developer"];
@@ -12,6 +14,13 @@ export default function Home() {
     const subtitleRef = useRef<HTMLParagraphElement>(null);
     const avatarRef = useRef<HTMLDivElement>(null);
     const ctaRef = useRef<HTMLDivElement>(null);
+    const sectionRef = useRef<HTMLElement>(null);
+    const btnPrimaryRef = useRef<HTMLAnchorElement>(null);
+    const btnSecondaryRef = useRef<HTMLAnchorElement>(null);
+
+    useSpotlight(sectionRef);
+    useMagnetic(btnPrimaryRef, 0.3);
+    useMagnetic(btnSecondaryRef, 0.3);
 
     const [text, setText] = useState("");
     const [roleIndex, setRoleIndex] = useState(0);
@@ -105,7 +114,7 @@ export default function Home() {
     }, []);
 
     return (
-        <section className="home-section">
+        <section ref={sectionRef} className="home-section">
             {/* Animated background grid */}
             <div className="grid-background"></div>
 
@@ -133,26 +142,16 @@ export default function Home() {
 
                 {/* CTA Buttons */}
                 <div ref={ctaRef} className="cta-buttons">
-                    <motion.a
-                        href="#contact"
-                        className="btn btn-primary"
-                        whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(255, 214, 10, 0.3)" }}
-                        whileTap={{ scale: 0.95 }}
-                    >
+                    <a ref={btnPrimaryRef} href="#contact" className="btn btn-primary">
                         <span>Get In Touch</span>
                         <svg className="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
-                    </motion.a>
+                    </a>
 
-                    <motion.a
-                        href="#projects"
-                        className="btn btn-secondary"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                    >
+                    <a ref={btnSecondaryRef} href="#projects" className="btn btn-secondary">
                         View Projects
-                    </motion.a>
+                    </a>
                 </div>
 
                 {/* Tech Stack Icons */}

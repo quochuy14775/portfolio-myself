@@ -1,0 +1,81 @@
+.aurora {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: var(--bg);
+}
+
+.aurora-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    mix-blend-mode: screen;
+    opacity: 0.55;
+    will-change: transform;
+}
+
+.aurora-blob-1 {
+    width: 620px;
+    height: 620px;
+    top: -180px;
+    left: -120px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.5), transparent 70%);
+    animation: auroraFloat1 18s ease-in-out infinite;
+}
+
+.aurora-blob-2 {
+    width: 560px;
+    height: 560px;
+    top: 20%;
+    right: -160px;
+    background: radial-gradient(circle, rgba(236, 72, 153, 0.35), transparent 70%);
+    animation: auroraFloat2 22s ease-in-out infinite;
+}
+
+.aurora-blob-3 {
+    width: 720px;
+    height: 720px;
+    bottom: -240px;
+    left: 30%;
+    background: radial-gradient(circle, rgba(34, 211, 238, 0.4), transparent 70%);
+    animation: auroraFloat3 26s ease-in-out infinite;
+}
+
+@keyframes auroraFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(80px, 60px) scale(1.1); }
+    66% { transform: translate(-40px, 100px) scale(0.95); }
+}
+@keyframes auroraFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-90px, 80px) scale(1.15); }
+}
+@keyframes auroraFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    40% { transform: translate(-100px, -60px) scale(1.05); }
+    80% { transform: translate(60px, -40px) scale(0.9); }
+}
+
+/* Subtle noise texture overlay for film-grain feel */
+.aurora-noise {
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    mix-blend-mode: overlay;
+}
+
+/* Vignette to keep edges deep black */
+.aurora::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 70%, var(--bg) 100%);
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .aurora-blob { animation: none; }
+}

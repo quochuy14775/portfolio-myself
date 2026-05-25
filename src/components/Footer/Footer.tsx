@@ -5,10 +5,10 @@ export default function Footer() {
     const currentYear = new Date().getFullYear();
 
     const socialLinks = [
-        { name: "GitHub", url: "https://github.com/yourname", icon: "🔗" },
-        { name: "LinkedIn", url: "https://linkedin.com/in/yourname", icon: "💼" },
-        { name: "Twitter", url: "https://twitter.com/yourname", icon: "🐦" },
-        { name: "Email", url: "mailto:yourname@example.com", icon: "✉️" },
+        { name: "GitHub", url: "https://github.com/yourname", label: "GH" },
+        { name: "LinkedIn", url: "https://linkedin.com/in/yourname", label: "IN" },
+        { name: "Twitter", url: "https://twitter.com/yourname", label: "X" },
+        { name: "Email", url: "mailto:yourname@example.com", label: "@" },
     ];
 
     return (
@@ -30,10 +30,10 @@ export default function Footer() {
                     {/* Quick Links */}
                     <div className="footer-links">
                         <h4>Quick Links</h4>
-                        <a href="/">Home</a>
-                        <a href="/about">About</a>
-                        <a href="/projects">Projects</a>
-                        <a href="/contact">Contact</a>
+                        <a href="#home">Home</a>
+                        <a href="#about">About</a>
+                        <a href="#projects">Projects</a>
+                        <a href="#contact">Contact</a>
                     </div>
 
                     {/* Social Links */}
@@ -46,12 +46,12 @@ export default function Footer() {
                                     href={social.url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="social-icon"
-                                    whileHover={{ scale: 1.2, rotate: 5 }}
-                                    whileTap={{ scale: 0.9 }}
+                                    className="social-icon mono"
+                                    whileHover={{ y: -2 }}
+                                    whileTap={{ scale: 0.95 }}
                                     title={social.name}
                                 >
-                                    {social.icon}
+                                    {social.label}
                                 </motion.a>
                             ))}
                         </div>
@@ -62,7 +62,7 @@ export default function Footer() {
                 <div className="footer-bottom">
                     <p>&copy; {currentYear} Quoc Huy. All rights reserved.</p>
                     <p className="footer-tagline">
-                        Made with <span className="heart">❤️</span> and <span className="code">{"</>"}</span>
+                        Built with <span className="code">React · TypeScript · GSAP</span>
                     </p>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useTilt } from "../hooks/useTilt";
 import "./Project.css";
 
 const projects = [
@@ -55,6 +56,47 @@ const projects = [
 
 const categories = ["All", "Frontend", "Backend", "Full Stack"];
 
+type Project = typeof projects[number];
+
+function ProjectCard({ project, idx }: { project: Project; idx: number }) {
+    const ref = useRef<HTMLDivElement>(null);
+    useTilt(ref, 6);
+
+    return (
+        <motion.div
+            ref={ref}
+            className="project-card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.5, delay: idx * 0.06, ease: [0.16, 1, 0.3, 1] }}
+            layout
+        >
+            <div className="project-card-inner">
+                <div className="project-icon">{project.image}</div>
+                <div className="project-content">
+                    <h3 className="project-title">{project.title}</h3>
+                    <p className="project-category">{project.category}</p>
+                    <p className="project-description">{project.description}</p>
+
+                    <div className="project-tech">
+                        {project.tech.map((tech) => (
+                            <span key={tech} className="tech-tag">{tech}</span>
+                        ))}
+                    </div>
+
+                    <a href={project.link} className="project-link">
+                        View Project
+                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </motion.div>
+    );
+}
+
 export default function Projects() {
     const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -70,12 +112,11 @@ export default function Projects() {
             exit={{ opacity: 0 }}
         >
             <div className="projects-container">
-                {/* Header */}
                 <motion.div
                     className="projects-header"
-                    initial={{ y: -50, opacity: 0 }}
+                    initial={{ y: -30, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.8 }}
+                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 >
                     <h1 className="projects-title">
                         My <span className="highlight-gradient">Projects</span>
@@ -85,66 +126,26 @@ export default function Projects() {
                     </p>
                 </motion.div>
 
-                {/* Filter Buttons */}
                 <motion.div
                     className="filter-buttons"
-                    initial={{ y: 30, opacity: 0 }}
+                    initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
+                    transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
                 >
                     {categories.map((category) => (
-                        <motion.button
+                        <button
                             key={category}
                             className={`filter-btn ${selectedCategory === category ? 'active' : ''}`}
                             onClick={() => setSelectedCategory(category)}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
                         >
                             {category}
-                        </motion.button>
+                        </button>
                     ))}
                 </motion.div>
 
-                {/* Projects Grid */}
-                <motion.div
-                    className="projects-grid"
-                    layout
-                >
+                <motion.div className="projects-grid" layout>
                     {filteredProjects.map((project, idx) => (
-                        <motion.div
-                            key={project.title}
-                            className="project-card"
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.9 }}
-                            transition={{ duration: 0.5, delay: idx * 0.1 }}
-                            whileHover={{ y: -10 }}
-                            layout
-                        >
-                            <div className="project-icon">{project.image}</div>
-                            <div className="project-content">
-                                <h3 className="project-title">{project.title}</h3>
-                                <p className="project-category">{project.category}</p>
-                                <p className="project-description">{project.description}</p>
-
-                                <div className="project-tech">
-                                    {project.tech.map((tech) => (
-                                        <span key={tech} className="tech-tag">{tech}</span>
-                                    ))}
-                                </div>
-
-                                <motion.a
-                                    href={project.link}
-                                    className="project-link"
-                                    whileHover={{ x: 5 }}
-                                >
-                                    View Project
-                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                    </svg>
-                                </motion.a>
-                            </div>
-                        </motion.div>
+                        <ProjectCard key={project.title} project={project} idx={idx} />
                     ))}
                 </motion.div>
             </div>

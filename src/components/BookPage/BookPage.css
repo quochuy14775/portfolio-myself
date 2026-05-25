@@ -1,0 +1,41 @@
+.book-page-wrap {
+    position: relative;
+    width: 100%;
+    /* Each page occupies its own scroll space.
+       The inner sections already enforce min-height: 100vh, so this wrap matches. */
+    perspective: 1800px;
+    perspective-origin: center center;
+    transform-style: preserve-3d;
+}
+
+.book-page {
+    position: relative;
+    width: 100%;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform, opacity;
+}
+
+/* Soft shadow that appears when page tilts — fakes the underside of a flipping page */
+.book-page-shadow {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.55) 0%,
+        rgba(0, 0, 0, 0.15) 50%,
+        rgba(0, 0, 0, 0.55) 100%
+    );
+    pointer-events: none;
+    z-index: 5;
+    mix-blend-mode: multiply;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .book-page {
+        transform: none !important;
+        opacity: 1 !important;
+    }
+    .book-page-shadow { display: none; }
+}
