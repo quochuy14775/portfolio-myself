@@ -105,7 +105,7 @@ export default function About() {
                 <div className="bento-grid">
                     {/* Bio — big card */}
                     <BentoCard className="bento-bio" tiltMax={3}>
-                        <span className="bento-label">// who.am.i</span>
+                        <span className="bento-label">{"// who.am.i"}</span>
                         <h2 className="bento-heading">
                             I build performant, beautiful web apps.
                         </h2>
